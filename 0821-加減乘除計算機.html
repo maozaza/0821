@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calc</title>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+            }
+            .container{
+                width: 100vw;
+                height: 100vh;
+                background-color: rgb(255, 239, 182);
+                display: flex;
+                align-items: center;
+            }
+            .box{
+                width: 500px;
+                height: 700px;
+                background-color: rgb(255, 156, 35);
+                margin: auto;
+                border-radius: 70px;
+                display: flex;
+                justify-content: start;
+                flex-direction: column;
+                align-items: center;
+
+               
+            }
+            .input-block{
+                width: 400px;
+                height: 80px;
+                font-size: 50px;
+                display: flex;
+                justify-content: center;
+                margin-top:50px;
+                border-radius: 20px;
+                display: block;
+                
+            }
+            .result{
+                width: 300px;
+                height: 100px;
+                font-size: 80px;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                margin: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+            }
+            
+            .btns{
+                display: flex;
+                margin: auto;
+                justify-content: space-evenly;
+            }
+            .btn1,.btn2,.btn3,.btn4{
+                width: 80px;
+                height: 50px;
+                font-size: 30px;
+                line-height: 50px;
+            }
+
+        </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <input type="number" class="input-block num1">
+            <input type="number" class="input-block num2">
+            <div class="result"></div>
+            <div class="btns">
+                <button class="btn1">+</button>
+                <button class="btn2">-</button>
+                <button class="btn3">*</button>
+                <button class="btn4">/</button>
+            </div>
+        </div>     
+    </div>
+    <script>
+        var num1 = document.querySelector('.input-block.num1');
+        var num2 = document.querySelector('.input-block.num2');
+        // console.log(num2);
+       
+        var plus = document.querySelector('.btn1');
+        var minus = document.querySelector('.btn2');
+        var time = document.querySelector('.btn3');
+        var quote = document.querySelector('.btn4');
+        var ans = document.querySelector('.result')
+        // ans.innerHTML = 0;
+        
+        plus.addEventListener('click', () => {
+            // ans.innerHTML = parseInt(num1.value) + parseInt(num2.value);
+            //parseInt是要確保（）內的是數值，否則相加會變成字串＋字串
+            fox('+')
+
+        });
+        minus.addEventListener('click', () => {
+            // ans.innerHTML = parseInt(num1.value) - parseInt(num2.value);
+            //parseInt是要確保（）內的是數值，否則相加會變成字串＋字串
+            fox('-')
+            
+        });
+        time.addEventListener('click', () => {
+            // ans.innerHTML = parseInt(num1.value) * parseInt(num2.value);
+            //parseInt是要確保（）內的是數值，否則相加會變成字串＋字串
+            fox('*')
+            
+        });
+        quote.addEventListener('click', () => {
+            // if(num2.value == 0){
+            //     alert('披薩');
+            // }
+            // ans.innerHTML = parseInt(num1.value) / parseInt(num2.value);
+            //parseInt是要確保（）內的是數值，否則相加會變成字串＋字串
+            fox('/')
+            
+        });
+
+        function fox(frog){
+            if (frog == '+'){
+                ans.innerHTML = parseInt(num1.value) + parseInt(num2.value);
+            }
+            else if(frog == '-'){
+                ans.innerHTML = parseInt(num1.value) - parseInt(num2.value);
+
+            }
+            else if(frog =='*'){
+                ans.innerHTML = parseInt(num1.value) * parseInt(num2.value);
+            }
+            else{
+                if(num2.value == 0){
+                alert('披薩');
+            }
+            ans.innerHTML = parseInt(num1.value) / parseInt(num2.value);
+            }
+        }
+
+        
+    </script>
+</body>
+</html>

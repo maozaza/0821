@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>colorbox</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        .container{
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* background-color: aquamarine; */
+           
+        }
+        .restart{
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            background-color: rgba(255, 217, 167,0.7);
+            z-index: 40;
+            display:none ;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px; 
+
+
+        }
+
+        .res-btn{
+            /* margin: auto; */
+            background-color: rgb(255, 167, 15);
+            width: 150px;
+            height: 100px;
+            border: 10px solid rgb(125, 82, 0);
+            border-radius: 20px;
+            opacity: 1;
+            cursor: pointer;
+        }
+        .res-btn:hover{
+            scale: 1.05;
+            border: 10px solid rgb(255, 235, 197);
+            box-shadow: 3px 3px 3px rgb(112, 63, 0);
+
+        }
+        .res-score{
+            font-size: 50px;
+            /* margin-top: 300px; */
+            display: flex;
+            justify-content:center ;
+            align-items: flex-end;
+            background-color: rgb(255, 200, 133);
+            border: 5px solid rgb(115, 75, 2);
+            padding: 5px;
+            border-radius: 10px;
+            
+        }
+        .res-level{
+            font-size: 50px;
+        }
+
+        .nav{
+            width: 100vw;
+            height: 150px;
+            /* background-color: aqua; */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;               
+            
+        }
+
+        .nav .nav-score{
+            margin: auto;
+            /* background-color: burlywood; */
+            width: 200px;
+            height: 60px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .nav .nav-btn{
+            margin: auto;
+            margin-top: 20px;
+            background-color: burlywood;
+            width: 200px;
+            height: 60px;
+            border: 5px solid rgb(70, 45, 0);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .time{
+            width: 100px;
+            height: 50px;
+            font-size: 30px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .content{
+            width: 600px;
+            height: 600px;
+            position: relative;
+            margin: auto;
+           
+
+        }
+        .hide{
+            width: 600px;
+            height: 600px;
+            position: absolute;
+            /* background-color: rgb(79, 79, 79); */
+            z-index: 30;
+            background-image: url(../img/狐狸咬.jpg);
+            background-size: cover;
+            border-radius: 30px;
+            display: none;
+
+        }
+        .display{
+            display: flex !important;
+        }
+        .bigbox {
+            width: 600px;
+            height: 600px;
+            background-color: rgb(255, 255, 255);
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 50px;
+            margin: auto;
+            
+            border-radius: 15px;
+
+        }
+
+        .box {
+            width: 285px;
+            height: 285px;
+            border-radius: 15px;
+        }
+
+        .ans {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="restart">
+            <div class="res-score"></div>
+                <button class="res-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                </svg>
+                </button>
+            <div class="res-level">AAAA</div>
+        </div>
+        <div class="nav">
+            <button class="nav-btn">開始！</button>
+            <div class="nav-score">0</div>   
+        </div>
+        <div class="content">
+            <div class="time">time:</div>
+            <div class="hide"></div>
+            <div class="bigbox" style="width: 600px; height: 600px;"> 
+        </div>
+        </div>
+    </div>
+    <script>
+        let bigbox = document.querySelector('.bigbox')
+        // let level=2;
+        createbox(1);//把下面的function呼叫到上面來執行
+
+        let startbtn = document.querySelector('.nav-btn');
+        let flag = 'madastart';
+        let timer;                
+        let time=document.querySelector('.time');
+        let timecount = 60;
+        let hidefox = document.querySelector('.hide');
+
+        startbtn.addEventListener('click',()=>{
+           
+            if(flag == 'madastart'){//flag是一個變數，flag是他的變數名，'start'在這邊是字串，也是要取什麼都可以
+                
+                time.innerHTML = `time:${timecount}`;
+                timer= setInterval(() => {
+                timecount--;
+                time.innerHTML = `time:${timecount}`;
+                
+                if(timecount <=0){
+                    turnZero(timer);
+
+                }}, 1000);
+                flag='moustart';
+                startbtn.innerHTML='暫停';
+            }else if(flag == 'moustart'){
+                startbtn.innerHTML='繼續';
+                flag = 'moupause'
+                clearInterval(timer);
+                console.log(timer);
+                hidefox.classList.add('display')
+
+
+            }else{
+                startbtn.innerHTML='暫停';
+                hidefox.classList.remove('display')
+                time.innerHTML = `time:${timecount}`;
+                timer= setInterval(() => {
+                timecount--;
+                time.innerHTML = `time:${timecount}`;
+                
+                if(timecount <=0){
+                    turnZero(timer);
+                }}, 1000);
+                flag='moustart';
+            }
+          
+        });
+        let reset = document.querySelector('.restart')
+        let score = document.querySelector('.nav-score');
+        let endScore = document.querySelector('.res-score')
+        let endLevel = document.querySelector('.res-level')
+        function turnZero(timer){
+            clearInterval(timer);
+            reset.classList.add('display');
+            
+        }
+
+        function boxWidth(lv = 1) {
+            return (600 - (lv * 10 + 20)) / (lv + 1);
+        }
+
+        function createbox(lv = 1) {//這是要重複呼叫的function，因為重複使用所以叫到上面呼叫就好
+            let blockNumber = (lv + 1) ** 2;//是lv替代掉level
+
+            bigbox.innerHTML = '';
+            randomNumber = Math.floor(Math.random() * blockNumber);
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+
+            for (let i = 0; i < blockNumber; i++) {
+                // console.log(i);
+                if (i == randomNumber) {
+                    // bigbox.innerHTML = bigbox.innerHTML+ '<div class="box ans"></div>';
+                    bigbox.innerHTML += `<div class="box ans" style="width: ${boxWidth(lv)}px;height: ${boxWidth(lv)}px;background-color: rgb(${r}, ${g}, ${b}");border-radius: 15px; ></div>`;
+                } else {
+                    bigbox.innerHTML += `<div class="box" style="width: ${boxWidth(lv)}px;height: ${boxWidth(lv)}px;background-color: rgb(${r}, ${g}, ${b}"></div>`;//用innerHTML把方塊給長出來
+                }
+
+            }
+
+            let boxes = document.querySelectorAll('.box');
+            console.log(boxes);
+            
+           
+            
+            boxes.forEach(function (fox) {
+                
+                fox.addEventListener('click', function () {
+                    
+                    if(flag == 'madastart')return ;
+                    if (fox.classList.contains('ans')) {//在fox這個被定義的陣列裡，去尋找class裡包含ans的內容
+                        
+                        let cutefox = score.innerHTML;
+                        cutefox++;
+                        score.innerHTML = cutefox;
+                        endScore.innerHTML = '得分：' + cutefox;
+                            if(cutefox > 40){
+                                endLevel.innerHTML = '火眼狐狸！';
+                            }else if(cutefox <= 40 && cutefox > 25){
+                                endLevel.innerHTML = '森林狐狸！';
+                            }else if(cutefox <= 25 && cutefox > 10){
+                                endLevel.innerHTML = '城市狐狸！';
+                            }else{
+                                endLevel.innerHTML = '披薩🍕';
+                            };
+                            
+                        console.log(score.innerHTML);
+
+                        console.log(123);
+                        let nextlv = lv + 1 
+                            if(nextlv > 6){
+                                nextlv = 6 ;
+                            }
+                        createbox(nextlv);//這個在網頁打開的時候不會執行，是被觸發才會去找這個function，要注意觸發時機點是在點擊事件的區域，所以需要if
+                    } else {
+                        alert('披薩🍕');
+                    }
+                
+                })
+            });
+        };
+        const restart = document.querySelector('.res-btn');
+        restart.addEventListener('click', ()=>{
+            createbox(1);
+            flag='madastart';
+            startbtn.innerHTML='開始！';
+            score.innerHTML = 0;
+            reset.classList.remove('display');
+            timecount = 60;
+            time.innerHTML = `time:${timecount}`;
+        })
+
+    </script>
+</body>
+
+</html>
